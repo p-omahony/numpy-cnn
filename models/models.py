@@ -23,7 +23,7 @@ class Network:
                 output = layer.forward(output)
             result.append(output)
 
-        return np.argmax(result)
+        return result
 
     def fit(self, x_train, y_train, epochs, learning_rate):
         samples = len(x_train)

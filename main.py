@@ -28,14 +28,16 @@ def main():
     net.add(ActivationLayer(tanh, tanh_prime))
 
     net.use(mse, mse_prime)
-    net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.01)
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=5, learning_rate=0.01)
 
     out = net.predict(x_test[0:3])
     print("\n")
     print("predicted values : ")
-    print(out, end="\n")
+    for o in out:
+        print(np.argmax(o))
     print("true values : ")
-    print(np.argmax(y_test[0:3]))
+    for t in y_test[0:3]:
+        print(np.argmax(t))
 
 if __name__ == '__main__':
     main()
