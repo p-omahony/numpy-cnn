@@ -11,11 +11,9 @@ def main():
 
 
     x_train = x_train.astype('float32')
-    x_train /= 255
     y_train = np.eye(10)[y_train]
 
     x_test = x_test.astype('float32')
-    x_test /= 255
     y_test = np.eye(10)[y_test]
 
     net = Network()
@@ -28,15 +26,17 @@ def main():
     net.add(ActivationLayer(tanh, tanh_prime))
 
     net.use(mse, mse_prime)
-    net.fit(x_train[0:1000], y_train[0:1000], epochs=5, learning_rate=0.01)
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=20, learning_rate=0.01)
 
     out = net.predict(x_test[0:3])
     print("\n")
     print("predicted values : ")
     for o in out:
+        print(o)
         print(np.argmax(o))
     print("true values : ")
     for t in y_test[0:3]:
+        print(t)
         print(np.argmax(t))
 
 if __name__ == '__main__':

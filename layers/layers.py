@@ -39,6 +39,7 @@ class ConvLayer:
         self.kernel_size = kernel_size
         self.kernel_shape = (num_kernels, *kernel_size)
         self.kernels = np.random.randn(*self.kernel_shape)
+        self.biases = np.random.randn(5, 26, 26)
         
 
     def forward(self, input):
@@ -47,7 +48,7 @@ class ConvLayer:
         self.input_shape = input.shape
         for j in range(self.num_kernels):
             kernel = self.kernels[j]
-            correlated = signal.correlate2d(np.squeeze(input), kernel, mode='valid')
+            correlated = signal.correlate2d(np.squeeze(input), kernel, mode='valid') + self.biases[j]
             output.append(correlated)
         return np.array(output)
 
@@ -58,11 +59,11 @@ class ConvLayer:
         inputs = np.squeeze(self.input)
         for i in range(self.num_kernels):
             kernels_gradient[i] = signal.correlate2d(inputs, output_error[i], mode='valid')
-            input_gradient += signal.convolve2d(output_error[i], self.kernels[i], "full")
+            input_gradient = signal.convolve2d(output_error[i], self.kernels[i], "full")
 
 
         self.kernels -= learning_rate * kernels_gradient
-        #self.biases -= learning_rate * output_error
+        self.biases -= learning_rate * output_error
         return input_gradient
         
 
