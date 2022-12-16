@@ -7,12 +7,12 @@ class FCLayer:
         self.weights = np.random.rand(input_size, output_size) - 0.5
         self.bias = np.random.rand(1, output_size) - 0.5
 
-    def forward_propagation(self, input_data):
+    def forward(self, input_data):
         self.input = input_data
         self.output = np.dot(self.input, self.weights) + self.bias
         return self.output
 
-    def backward_propagation(self, output_error, learning_rate):
+    def backward(self, output_error, learning_rate):
         input_error = np.dot(output_error, self.weights.T)
         weights_error = np.dot(self.input.T, output_error)
 
@@ -25,12 +25,12 @@ class ActivationLayer:
         self.activation = activation
         self.activation_prime = activation_prime
 
-    def forward_propagation(self, input_data):
+    def forward(self, input_data):
         self.input = input_data
         self.output = self.activation(self.input)
         return self.output
 
-    def backward_propagation(self, output_error, learning_rate):
+    def backward(self, output_error, learning_rate):
         return self.activation_prime(self.input) * output_error
 
 class ConvLayer:
@@ -41,7 +41,7 @@ class ConvLayer:
         self.kernels = np.random.randn(*self.kernel_shape)
         
 
-    def forward_propagation(self, input):
+    def forward(self, input):
         output = []
         self.input = input
         self.input_shape = input.shape
@@ -51,7 +51,7 @@ class ConvLayer:
             output.append(correlated)
         return np.array(output)
 
-    def backward_propagation(self, output_error, learning_rate):
+    def backward(self, output_error, learning_rate):
         kernels_gradient = np.zeros((self.num_kernels, *self.kernel_size))
         input_gradient = np.squeeze(np.zeros(self.input_shape))
 
@@ -71,8 +71,8 @@ class ReshapeLayer:
         self.input_shape = input_shape
         self.output_shape = output_shape
 
-    def forward_propagation(self, input):
+    def forward(self, input):
         return np.reshape(input, self.output_shape)
 
-    def backward_propagation(self, output_error, learning_rate):
+    def backward(self, output_error, learning_rate):
         return np.reshape(output_error, self.input_shape)

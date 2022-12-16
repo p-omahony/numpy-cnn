@@ -20,7 +20,7 @@ class Network:
         for i in range(samples):
             output = input_data[i]
             for layer in self.layers:
-                output = layer.forward_propagation(output)
+                output = layer.forward(output)
             result.append(output)
 
         return np.argmax(result)
@@ -33,14 +33,14 @@ class Network:
             for j in range(samples):
                 output = x_train[j]
                 for layer in self.layers:
-                    output = layer.forward_propagation(output)
+                    output = layer.forward(output)
 
                 err += self.loss(y_train[j], output)
 
                 error = self.loss_prime(y_train[j], output)
                 k=0
                 for layer in reversed(self.layers):
-                    error = layer.backward_propagation(error, learning_rate)
+                    error = layer.backward(error, learning_rate)
                     k += 1
             err /= samples
             print('epoch %d/%d   error=%f' % (i+1, epochs, err))
