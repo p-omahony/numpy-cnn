@@ -5,6 +5,7 @@ class Network:
         self.layers = []
         self.loss = None
         self.loss_prime = None
+        self.hist_loss = []
 
     def add(self, layer):
         self.layers.append(layer)
@@ -43,5 +44,6 @@ class Network:
                     error = layer.backward(error, learning_rate)
                     k += 1
             err /= samples
+            self.hist_loss.append(err)
             print('epoch %d/%d   error=%f' % (i+1, epochs, err))
             
