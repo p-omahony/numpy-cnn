@@ -1,16 +1,13 @@
 import numpy as np
 
-def relu(Z):
-    return np.maximum(Z,0)
+def softmax(x):
+    exps = np.exp(x - x.max())
+    return exps / np.sum(exps)
 
-def relu_derivative(dA, Z):
-    dZ = np.array(dA, copy = True)
-    dZ[Z <= 0] = 0
-    return dZ
-
-def softmax(Z):
-    return(np.exp(Z)/np.exp(Z).sum())
-
+def softmax_prime(x):
+    soft = softmax(x)                                
+    diag_soft = soft*(1- soft)
+    return diag_soft  
 
 def tanh(x):
     return np.tanh(x)
