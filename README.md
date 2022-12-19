@@ -8,4 +8,4 @@ The goal of this project is to solve the MNIST problem by implementing a CNN onl
 4. `python -B main.py`
 
 ## Maths & results
-To see the maths behind this project you can go to my website. Some results are also displayed
+To see the maths behind this project you can go to my [website](https://p-omahony.github.io/jekyll/update/2022/12/16/np-cnn.html). Some results are also displayed
